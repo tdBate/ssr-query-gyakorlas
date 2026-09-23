@@ -1,4 +1,4 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Query, Render } from '@nestjs/common';
 import { AppService } from './app.service.js';
 import { Expense } from './expense.js';
 
@@ -80,6 +80,20 @@ export class AppController {
   getTopThree() {
     return {
       data: expenses.sort((a, b) => b.amount - a.amount).slice(0, 3),
+    }
+  }
+
+  @Get("/search")
+  @Render('search')
+  getSearch(@Query("name") name: string) {
+    if (!name) return { data: expenses, message: "" }
+
+    const filtereltAdatok = expenses.filter(item => item.name.toLowerCase().includes(name.toLowerCase()));
+    if (filtereltAdatok.length == 0) { return { data: [], message: "Nincs találat" } }
+
+    return {
+      data: filtereltAdatok,
+      message: ""
     }
   }
 }
