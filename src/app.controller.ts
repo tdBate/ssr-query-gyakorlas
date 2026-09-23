@@ -71,7 +71,15 @@ export class AppController {
   @Render('all')
   getAll() {
     return {
-      data: expenses
+      data: expenses,
+    }
+  }
+
+  @Get("/top3")
+  @Render('all')
+  getTopThree() {
+    return {
+      data: expenses.sort((a, b) => b.amount - a.amount).slice(0, 3),
     }
   }
 }
