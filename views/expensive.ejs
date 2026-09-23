@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <input name="amount" type="number">
+        <button type="submit">Search</button>
+    </form>
+
+    <h1>
+        <%= message %>
+    </h1>
+    <table>
+        <% data.forEach(element=> {
+            %><tr style="<% 
+            if (element.category== 'food') { %> background-color: red;<% } 
+            else if (element.category== 'utilities') { %> background-color: green;<% }
+            else if (element.category== 'misc') { %> background-color: blue;<% }
+            else if (element.category== 'entertainment') { %> background-color: yellow;<% } %>">
+                <td>
+                    <%=element.name%>
+                </td>
+                <td>
+                    <%=element.amount%> Ft
+                </td>
+                <td>
+                    <%=element.category%>
+                </td>
+            </tr>
+            <% }); %>
+    </table>
+</body>
+
+</html>

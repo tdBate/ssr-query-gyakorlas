@@ -96,4 +96,43 @@ export class AppController {
       message: ""
     }
   }
+
+  @Get("/expensive")
+  @Render('expensive')
+  getExpensive(@Query("amount") amount: number) {
+    const filtereltAdatok = expenses.filter(item => amount < item.amount);
+    if (filtereltAdatok.length == 0) { return { data: [], message: "Nincs találat" } }
+
+    return {
+      data: filtereltAdatok,
+      message: ""
+    }
+  }
+
+  @Get("/stats")
+  @Render('stats')
+  getStats() {
+    const kategoriak = ["food", "utilities", "entertainment", "misc"]
+
+    let adatok: Object[] = [];
+    kategoriak.forEach(name => {
+      const filtereltAdatok = expenses.filter(item => item.category.toString() == name);
+      const osszeg = filtereltAdatok.map(item => { return item.amount }).reduce((total, num) => total += num)
+      const properties = {
+        name: name,
+        koltesekSzama: filtereltAdatok.length,
+        osszeg: osszeg,
+        atlag: osszeg / filtereltAdatok.length
+      };
+
+      adatok.push(properties);
+    });
+
+    return {
+      koltesSzam: expenses.length,
+      atlag: expenses.map(item => { return item.amount }).reduce((total, num) => total += num) / expenses.length,
+      data: adatok
+
+    }
+  }
 }
