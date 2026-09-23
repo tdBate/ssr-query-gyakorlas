@@ -61,9 +61,17 @@ export class AppController {
 
   @Get()
   @Render('index')
-  getHello() {
+  getIndex() {
     return {
       title: 'My First NestJS App'
+    }
+  }
+
+  @Get("/all")
+  @Render('all')
+  getAll() {
+    return {
+      data: expenses
     }
   }
 }
